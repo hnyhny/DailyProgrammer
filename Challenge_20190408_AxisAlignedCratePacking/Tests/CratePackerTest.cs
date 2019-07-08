@@ -11,7 +11,6 @@ namespace hnyhny.AxisAlignedCratePacking.Tests
         public void TestFit(uint[] input, uint expected)
         {
             var actual = new CratePacker(input).Fit();
-            
             Assert.Equal(expected, actual);
         }
         public static IEnumerable<object[]> TestData => new[] {
