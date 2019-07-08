@@ -19,40 +19,34 @@ namespace hnyhny.AxisAlignedCratePacking.Tests
             };
 
             var expected = BigInteger.Parse("4281855455197643306306491981973422080000");
-            var actual = new NDimensionCratePacker(input).Fit();
+            var actual = new NDimensionCratePacker().Fit(input);
 
             Assert.Equal(expected, actual);
         }
-         [Theory]
+        [Theory]
         [MemberData(nameof(ThreeDimensionsTestData))]
-        public void TestFitThreeDimensions(uint[] input, uint expected)
+        public void TestFitThreeDimensions(IEnumerable<uint> input, uint expected)
         {
             var inputArrays = new List<IEnumerable<uint>>(){
                 input.Take(3),
                 input.Skip(3)
             };
-            var actual = new NDimensionCratePacker(inputArrays).Fit();
-            
+            var actual = new NDimensionCratePacker().Fit(inputArrays);
             Assert.Equal(expected, actual);
         }
 
-        public static IEnumerable<object[]> ThreeDimensionsTestData => new[] {
-            new object[]{new uint[]{10, 10, 10, 1, 1, 1}, 1000},
-            new object[]{new uint[]{12, 34, 56, 7, 8, 9}, 32},
-            new object[]{new uint[]{123, 456, 789, 10, 11, 12}, 32604},
-            new object[]{new uint[]{1234567, 89101112, 13141516, 171819, 202122, 232425}, 174648},
-        };
+        public static IEnumerable<object[]> ThreeDimensionsTestData => Data.ThreeDimensional.TestCases;
 
         [Theory]
         [MemberData(nameof(TwoDimensionsTestData))]
         public void TestFitTwoDimensions(uint[] input, uint expected)
         {
-             var inputArrays = new List<IEnumerable<uint>>(){
+            var inputArrays = new List<IEnumerable<uint>>(){
                 input.Take(2),
                 input.Skip(2)
             };
-            var actual = new NDimensionCratePacker(inputArrays).Fit();
-            
+            var actual = new NDimensionCratePacker().Fit(inputArrays);
+
             Assert.Equal(expected, actual);
         }
         public static IEnumerable<object[]> TwoDimensionsTestData => new[] {
@@ -64,5 +58,42 @@ namespace hnyhny.AxisAlignedCratePacking.Tests
             new object[]{new uint[]{5, 5, 3, 2}, 2},
             new object[]{new uint[]{5, 5, 6, 1}, 0}
         };
+    }
+    internal static class Data
+    {
+        internal static class ThreeDimensional
+        {
+            private static TestCase TestCase1 = new TestCase(new uint[] { 10, 10, 10, 1, 1, 1 }, 1000);
+            private static TestCase TestCase2 = new TestCase(new uint[] { 12, 34, 56, 7, 8, 9 }, 32);
+            private static TestCase TestCase3 = new TestCase(new uint[] { 123, 456, 789, 10, 11, 12 }, 32604);
+            private static TestCase TestCase4 = new TestCase(new uint[] { 1234567, 89101112, 13141516, 171819, 202122, 232425 }, 174648);
+
+            internal static IEnumerable<object[]> TestCases => new[]
+        {
+            CreateTestRunData(Data.ThreeDimensional.TestCase1),
+            CreateTestRunData(Data.ThreeDimensional.TestCase2),
+            CreateTestRunData(Data.ThreeDimensional.TestCase3),
+            CreateTestRunData(Data.ThreeDimensional.TestCase4),
+        };
+
+            private static object[] CreateTestRunData(Data.TestCase TestCase)
+            {
+                return new object[]
+                {
+                TestCase.Dimensions,
+                TestCase.Expected
+                };
+            }
+        }
+        private class TestCase
+        {
+            internal readonly uint[] Dimensions;
+            internal readonly int Expected;
+            public TestCase(uint[] dimensions, int expected)
+            {
+                this.Dimensions = dimensions;
+                this.Expected = expected;
+            }
+        }
     }
 }

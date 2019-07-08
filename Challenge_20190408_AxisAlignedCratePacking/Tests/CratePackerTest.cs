@@ -8,9 +8,9 @@ namespace hnyhny.AxisAlignedCratePacking.Tests
     {
         [Theory]
         [MemberData(nameof(TestData))]
-        public void TestFit(uint[] input, uint expected)
+        public void TestFit(IList<uint> input, uint expected)
         {
-            var actual = new CratePacker(input).Fit();
+            var actual = new CratePacker().Fit(input);
             Assert.Equal(expected, actual);
         }
         public static IEnumerable<object[]> TestData => new[] {

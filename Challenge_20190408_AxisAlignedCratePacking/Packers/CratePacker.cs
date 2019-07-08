@@ -1,24 +1,22 @@
+using System.Collections;
 using System.Linq;
 using System;
 using hnyhny.AxisAlignedCratePacking.Entities;
+using System.Collections.Generic;
 
 namespace hnyhny.AxisAlignedCratePacking.Packers
 {
     internal class CratePacker
     {
-        private readonly Plane Crate;
-        private readonly Plane Box;
-        private int validInputLength = 4;
-        public CratePacker(uint[] input)
+        private const int validInputLength = 4;
+        internal uint Fit(IList<uint> input)
         {
-            if (input.Length != validInputLength)
+            if (input.Count() != validInputLength)
                 throw new NotSupportedException($"The input has to be an integer array of length {validInputLength}");
 
-            this.Crate = new Plane(input[0], input[1]);
-            this.Box = new Plane(input[2], input[3]);
-        }
-        internal uint Fit()
-        {
+            var Crate = new Plane(input[0], input[1]);
+            var Box = new Plane(input[2], input[3]);
+
             return (Crate.X / Box.X) * (Crate.Y / Box.Y);
         }
     }
