@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Numerics;
 using System;
 using System.Linq;
@@ -9,20 +10,14 @@ namespace hnyhny.AxisAlignedCratePacking.Packers
 {
     internal class NDimensionCratePacker
     {
-        private readonly IEnumerable<uint> crate;
-        private readonly IEnumerable<uint> box;
-
-        public NDimensionCratePacker(IEnumerable<IEnumerable<uint>> input)
+        internal BigInteger Fit(IEnumerable<IEnumerable<uint>> input)
         {
-            this.crate = input.First();
-            this.box = input.Skip(1).First();
+            var crateDimensions = input.First();
+            var boxPermutations = input.Skip(1).First().GetPermutations();
+            
+            return boxPermutations.Select(box => CalculateFit(crateDimensions, box)).Max();
         }
-        internal BigInteger Fit()
-        {
-            var boxPermutations = box.GetPermutations();
-            return boxPermutations.Select(CalculateFit).Max();
-        }
-        internal BigInteger CalculateFit(IEnumerable<uint> box)
+        internal BigInteger CalculateFit(IEnumerable<uint> crate, IEnumerable<uint> box)
         {
             return crate.Zip(box, (x, y) => x / y).Aggregate((first, second) => first * second);
         }
