@@ -10,18 +10,20 @@ namespace hnyhny.AxisAlignedCratePacking.Packers
 {
     internal class CratePacker
     {
-        internal BigInteger Fit(IEnumerable<IEnumerable<uint>> input)
+        internal BigInteger Fit(IEnumerable<uint> input)
         {
-            var crateDimensions = input.First();
-            var boxDimensions = input.Skip(1).First();
+            var dimensions = input.Count() / 2;
+            var crateDimensions = input.Take(dimensions);
+            var boxDimensions = input.Skip(dimensions);
 
             return CalculateFit(crateDimensions, boxDimensions);
         }
 
-        internal BigInteger FitOptimized(IEnumerable<IEnumerable<uint>> input)
+        internal BigInteger FitOptimized(IEnumerable<uint> input)
         {
-            var crateDimensions = input.First();
-            var boxPermutations = input.Skip(1).First().GetPermutations();
+            var dimensions = input.Count() / 2;
+            var crateDimensions = input.Take(dimensions);
+            var boxPermutations = input.Skip(dimensions).GetPermutations();
 
             return boxPermutations.Select(box => CalculateFit(crateDimensions, box)).Max();
         }

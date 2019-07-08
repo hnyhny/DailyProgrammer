@@ -13,15 +13,10 @@ namespace hnyhny.AxisAlignedCratePacking.Tests
         public static IEnumerable<object[]> OptimizedFitTwoDimensionsData => TestCases.OptimizedFit.TwoDimensions;
         public static IEnumerable<object[]> OptimizedFitThreeDimensionsData => TestCases.OptimizedFit.ThreeDimensions;
 
-        [Fact]
+        [Fact(Skip = "Takes long")]
         public void TestOptimizedFitTwentyDimensions()
         {
-            var input = new List<uint[]>()
-            {
-                new uint[]{180598, 125683, 146932, 158296, 171997, 204683, 193694, 216231, 177673, 169317, 216456, 220003, 165939, 205613, 152779, 177216, 128838, 126894, 210076, 148407},
-                new uint[]{1984, 2122, 1760, 2059, 1278, 2017, 1443, 2223, 2169, 1502, 1274, 1740, 1740, 1768, 1295, 1916, 2249, 2036, 1886, 2010}
-            };
-
+            var input = new uint[] { 180598, 125683, 146932, 158296, 171997, 204683, 193694, 216231, 177673, 169317, 216456, 220003, 165939, 205613, 152779, 177216, 128838, 126894, 210076, 148407, 1984, 2122, 1760, 2059, 1278, 2017, 1443, 2223, 2169, 1502, 1274, 1740, 1740, 1768, 1295, 1916, 2249, 2036, 1886, 2010 };
             var expected = BigInteger.Parse("4281855455197643306306491981973422080000");
             var actual = new CratePacker().FitOptimized(input);
 
@@ -32,8 +27,7 @@ namespace hnyhny.AxisAlignedCratePacking.Tests
         [MemberData(nameof(OptimizedFitThreeDimensionsData))]
         public void TestOptimizedFitThreeDimensions(IEnumerable<uint> input, uint expected)
         {
-            var inputArrays = PrepareTestInput(input, 3);
-            var actual = new CratePacker().FitOptimized(inputArrays);
+            var actual = new CratePacker().FitOptimized(input);
 
             Assert.Equal(expected, actual);
         }
@@ -42,8 +36,7 @@ namespace hnyhny.AxisAlignedCratePacking.Tests
         [MemberData(nameof(OptimizedFitTwoDimensionsData))]
         public void TestOptimizedFitTwoDimensions(uint[] input, uint expected)
         {
-            var inputArrays = PrepareTestInput(input, 2);
-            var actual = new CratePacker().FitOptimized(inputArrays);
+            var actual = new CratePacker().FitOptimized(input);
 
             Assert.Equal(expected, actual);
         }
@@ -52,8 +45,7 @@ namespace hnyhny.AxisAlignedCratePacking.Tests
         [MemberData(nameof(FitTwoDimensionsData))]
         public void TestFitTwoDimensions(uint[] input, uint expected)
         {
-            var inputArrays = PrepareTestInput(input, 2);
-            var actual = new CratePacker().Fit(inputArrays);
+            var actual = new CratePacker().Fit(input);
 
             Assert.Equal(expected, actual);
         }
