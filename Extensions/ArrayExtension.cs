@@ -15,7 +15,7 @@ namespace hnyhny.Extensions
             for (int index = 0; index < array.Length; index++)
                 result[index] = array[index];
 
-            return array;
+            return result;
         }
 
     }
