@@ -7,57 +7,26 @@ namespace _375_Mid_CardFlippingGame
 {
     internal class CardFlipper
     {
-        internal int[] Solve(string game)
+        private List<int> NoSolution = new List<int>();
+        internal IEnumerable<int> Solve(string gameState)
         {
-            throw new NotImplementedException();
-        }
+            var appendCardAtEnd = false;
+            var result = new List<int>();
 
-        internal Dictionary<int, char[]> GetChildProblems(char[] state)
-        {
-            var result = new Dictionary<int, char[]>();
-            for (int index = 0; index < state.Length; index++) 
+            gameState.Each((item, index) =>
             {
-                if(state[index] == '1')
-                    result.Add(index, FlipCards(state, index));
-            }
-            return result;
-        }
-        internal char[] FlipCards(char[] state, int card)
-        {
-            char[] result = state.DeepCopy();
-            result[card] = '.';
+                if (appendCardAtEnd)
+                    result.Add(index);
+                else
+                    result.Insert(0, index);
 
-            var leftNeighbor = card - 1;
-            if (leftNeighbor >= 0)
-                result[leftNeighbor] = FlipCard(state[leftNeighbor]);
+                appendCardAtEnd ^= (item == '1');
+            });
 
-            var rightNeigbor = card + 1;
-            if (rightNeigbor <= state.Length - 1)
-                result[rightNeigbor] = FlipCard(state[rightNeigbor]);
+            if(!appendCardAtEnd)
+                return NoSolution;
 
             return result;
-        }
-
-        private char[] CopyState(char[] state)
-        {
-            var result = new char[state.Length];
-            for (int index = 0; index < state.Length; index++)
-            {
-                result[index] = state[index];
-            }
-
-            return result;
-        }
-
-        private char FlipCard(char card)
-        {
-            if (card == '.')
-                return '.';
-
-            if (card == '1')
-                return '0';
-
-            return '1';
         }
     }
 }

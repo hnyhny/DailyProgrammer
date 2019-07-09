@@ -8,22 +8,12 @@ namespace _375_Mid_CardFlippingGame
     {
         public static IEnumerable<object[]> TestSolveData => new List<object[]>()
         {
-            new object[] { "0100110", new int[] { 1, 0, 2, 3, 5, 4, 6 } }
-        };
-        public static IEnumerable<object[]> TestGetChildProblemsData => new List<object[]>()
-        {
-            new object[] { "0000", new Dictionary<int, char[]>() },
-            new object[] { "1010", new Dictionary<int, char[]>()
-            {
-                {0, ".110".ToArray()},
-                {2, "11.1".ToArray()},
-            } },
-            new object[] { "111", new Dictionary<int, char[]>()
-            {
-                {0, ".01".ToArray()},
-                {1, "0.0".ToArray()},
-                {2, "10.".ToArray()},
-            } },
+            new object[] { "0100110", new int[] { 5, 1, 0, 2, 3, 4, 6 } },
+            new object[] {"001011011101001001000", new int[] {17, 16, 15, 11, 10, 8, 5, 2, 1, 0, 3, 4, 6, 7, 9, 12, 13, 14, 18, 19, 20}},
+            new object[] {"1010010101001011011001011101111", new int[] {}},
+            new object[] {"1101110110000001010111011100110", new int[] {29, 25, 23, 22, 20, 17, 16, 8, 5, 3, 2, 0, 1, 4, 6, 7, 9, 10, 11, 12, 13, 14, 15, 18, 19, 21, 24, 26, 27, 28, 30}},
+            new object[] {"010111111111100100101000100110111000101111001001011011000011000",
+             new int[] {59, 53, 50, 47, 46, 45, 41, 39, 36, 35, 34, 33, 31, 28, 24, 23, 22, 21, 18, 17, 16, 12, 10, 8, 6, 4, 1, 0, 2, 3, 5, 7, 9, 11, 13, 14, 15, 19, 20, 25, 26, 27, 29, 30, 32, 37, 38, 40, 42, 43, 44, 48, 49, 51, 52, 54, 55, 56, 57, 58, 60, 61, 62}},
         };
         [Theory]
         [MemberData(nameof(TestSolveData))]
@@ -31,25 +21,6 @@ namespace _375_Mid_CardFlippingGame
         {
             var actual = new CardFlipper().Solve(gameState);
             Assert.Equal(expected, actual);
-        }
-        
-        [Theory]
-        [MemberData(nameof(TestGetChildProblemsData))]
-        public void TestGetChildProblems(string gameState, Dictionary<int, char[]> expected)
-        {
-            var actual = new CardFlipper().GetChildProblems(gameState.ToArray());
-            Assert.Equal(expected, actual);
-        }
-
-        [Theory]
-        [InlineData("111", 1, "0.0")]
-        [InlineData("010", 1, "1.1")]
-        [InlineData("100", 0, ".10")]
-        [InlineData("001", 2, "01.")]
-        public void FlipCards(string gameState, int card, string expected)
-        {
-            var actual = new CardFlipper().FlipCards(gameState.ToArray(), card);
-            Assert.Equal(expected.ToArray(), actual);
         }
     }
 }
