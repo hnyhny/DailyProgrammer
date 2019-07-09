@@ -1,4 +1,4 @@
-#  Challenge #376 [Intermediate] The Revised Julian Calendar
+# Challenge #376 [Intermediate] The Revised Julian Calendar
 
 ## Source
 
