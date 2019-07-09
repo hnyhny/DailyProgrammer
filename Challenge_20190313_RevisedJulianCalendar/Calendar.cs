@@ -5,30 +5,33 @@ namespace hnyhny.Challenges.RevisedJulianCalendar
 {
     internal class Calendar
     {
-        internal int CountLeapDays(int startYear, int endYear)
-        {
-            return Enumerable.Range(startYear, endYear - startYear).Where(HasLeapDay).Count();
-        }
         internal long CountLeapDays(long startYear, long endYear)
-        {           
-            if(startYear == endYear)
+        {
+            var difference = endYear - startYear;
+
+            if (difference == 1 && HasLeapDay(startYear))
+                return 1;
+
+            if (difference <= 1)
                 return 0;
 
-            var leapsInIntervall = (endYear - startYear) / 4
-            - (endYear - startYear) / 100
-            + ((endYear - 200) / 900) - ((startYear - 200) / 900)
-            + ((endYear - 600) / 900) - ((startYear - 600) / 900);
+            return CountClosedIntervals(difference, 4)
+            - CountClosedIntervals(difference, 100)
+            + CountClosedIntervals(startYear, endYear, 900, 600)
+            + CountClosedIntervals(startYear, endYear, 900, 200)
+            ;
+        }
 
-            if(HasLeapDay(startYear))
-                leapsInIntervall += 1;
-            if(endYear - startYear > 900)
-                leapsInIntervall += 178;
-            return leapsInIntervall;
-        }
-        private bool HasLeapDay(int year)
+        private long CountClosedIntervals(long number, int length)
         {
-            return HasLeapDay((long)year);
+            return number / length;
         }
+
+        private long CountClosedIntervals(long intervalStart, long intervalEnd, int length, int offset)
+        {
+            return (intervalEnd - offset) / length - (intervalStart - offset) / length;
+        }
+
         private bool HasLeapDay(long year)
         {
             if (year % 900 == 200 || year % 900 == 600)
