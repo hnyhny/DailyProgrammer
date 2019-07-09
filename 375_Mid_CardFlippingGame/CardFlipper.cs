@@ -7,18 +7,23 @@ namespace _375_Mid_CardFlippingGame
 {
     internal class CardFlipper
     {
-        private const int NOT_FLIPPED = -1;
-
         internal int[] Solve(string game)
         {
             throw new NotImplementedException();
         }
 
+        internal Dictionary<int, char[]> GetChildProblems(char[] state)
+        {
+            var result = new Dictionary<int, char[]>();
+            for (int index = 0; index < state.Length; index++) 
+            {
+                if(state[index] == '1')
+                    result.Add(index, FlipCards(state, index));
+            }
+            return result;
+        }
         internal char[] FlipCards(char[] state, int card)
         {
-            if (state[card] != '1')
-                throw new NotSupportedException("Only a card with value '1' can be flipped.");
-
             char[] result = state.DeepCopy();
             result[card] = '.';
 
