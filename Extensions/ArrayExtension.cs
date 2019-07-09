@@ -9,5 +9,14 @@ namespace hnyhny.Extensions
                 arr[i] = value;
             }
         }
+        public static T[] DeepCopy<T>(this T[] array)
+            {
+            var result = new T[array.Length];
+            for (int index = 0; index < array.Length; index++)
+                result[index] = array[index];
+
+            return array;
+        }
+
     }
 }
